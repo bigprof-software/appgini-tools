@@ -1,8 +1,8 @@
-=AppGini 5.70 – Authentication logging
+# Authentication logging
 
 Out of the box, AppGini does not provide logging of user authentication attempts.  For some of my projects, I do need to track who logs on when.  Using the hooks feature, I put the following code together that will log who has logged on (and who hasn’t).
 
-Edit the _hooks/__global.php_ file, and add the following function.
+Edit the *hooks/__global.php* file, and add the following function.
 ```php
 function logit ($memberInfo,$status)
 {
