@@ -1,13 +1,13 @@
-# AppGini Report script by Phil Massyn
-# For reference, see https://bigprof.com/appgini/help/advanced-topics/custom-limited-access-pages
-#
-# How to use
-# 1) Copy this script to your hooks folder
-# 2) Update the group in line 20 (or leave it as is, your call :-)
-# 3) Update the SQL query in line 25
-# 4) Update the menu path (see https://bigprof.com/appgini/help/advanced-topics/hooks/folder-contents )
-
 <?php
+// AppGini Report script by Phil Massyn
+// For reference, see https://bigprof.com/appgini/help/advanced-topics/custom-limited-access-pages
+//
+// How to use
+// 1) Copy this script to your hooks folder
+// 2) Update the group in line 20 (or leave it as is, your call :-)
+// 3) Update the SQL query in line 25
+// 4) Update the menu path (see https://bigprof.com/appgini/help/advanced-topics/hooks/folder-contents )
+
 define('PREPEND_PATH', '../');
 $hooks_dir = dirname(__FILE__);
 include("$hooks_dir/../defaultLang.php");
