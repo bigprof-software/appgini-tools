@@ -33,20 +33,23 @@ There may be various reasons why you'd like to enable multi factor authentcation
 	<input class="form-control" name="otp" id="otp" type="text" placeholder="Google Authenticator">
 </div>	
 ```
-* Edit the _incCommon.php_ script, and add the following lines of code just after the <?php statement
+* Edit the _incCommon.php_ script, and look for the _function logInMember(_ function.  
+* Add the following lines of code just after the *function logInMember(){
+* statement
 ```php
 $curr_dir = dirname(__FILE__);
 require_once "$curr_dir/hooks/GoogleAuthenticatorClass.php";
 $ga = new framework_GoogleAuthenticator();
 ```
-* Continue editing _incCommon.php_ and scroll down to the _function logInMember(_ function.  (It should be around line 218).
-* Look for this line in the code
+* Continue editing _incCommon.php_ by scrolling down, and look for this line of code.
 ```php
 if(sqlValue("select count(1) from membership_users where lcase(memberID)='$username' and passMD5='$password' and isApproved=1 and isBanned=0")==1){
 ```
-and replace it with the following
+Replace it with the following code
 ```php
-busy
+if(sqlValue("select count(1) from membership_users where lcase(memberID)='$username' and passMD5='$password' and isApproved=1 and isBanned=0")==1 && ($ga->TOTPauthenticate(db_link(),$username))){
 ```
+## Design notes
+* Multi factor authentication is not forced, meaning that if the user did not configure Google Authenticator, they will still be allowed to logon.
 
 
