@@ -33,7 +33,20 @@ There may be various reasons why you'd like to enable multi factor authentcation
 	<input class="form-control" name="otp" id="otp" type="text" placeholder="Google Authenticator">
 </div>	
 ```
-## Next step installation (DRAFT)
+* Edit the _incCommon.php_ script, and add the following lines of code just after the <?php statement
+```php
+$curr_dir = dirname(__FILE__);
+require_once "$curr_dir/hooks/GoogleAuthenticatorClass.php";
+$ga = new framework_GoogleAuthenticator();
+```
+* Continue editing _incCommon.php_ and scroll down to the _function logInMember(_ function.  (It should be around line 218).
+* Look for this line in the code
+```php
+if(sqlValue("select count(1) from membership_users where lcase(memberID)='$username' and passMD5='$password' and isApproved=1 and isBanned=0")==1){
+```
+and replace it with the following
+```php
+busy
+```
 
 
-* Update the authentication code
