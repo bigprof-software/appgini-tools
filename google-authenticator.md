@@ -26,8 +26,14 @@ There may be various reasons why you'd like to enable multi factor authentcation
 		'table_group' => ''
 	);
 ```
-
+* Edit the _login.php_ folder in the root.  Around line 33, you'll notice the end of the "Password" field, and the start of the "Remember Me" code.  Between the two fields, insert the follwing HTML code.
+```HTML
+<div class="form-group">
+	<label class="control-label" for="otp">Google Authenticator</label>
+	<input class="form-control" name="otp" id="otp" type="text" placeholder="Google Authenticator">
+</div>	
+```
 ## Next step installation (DRAFT)
 
-* Update the login form
+
 * Update the authentication code
