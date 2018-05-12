@@ -33,9 +33,8 @@ There may be various reasons why you'd like to enable multi factor authentcation
 	<input class="form-control" name="otp" id="otp" type="text" placeholder="Google Authenticator">
 </div>	
 ```
-* Edit the _incCommon.php_ script, and look for the _function logInMember(_ function.  
-* Add the following lines of code just after the *function logInMember(){
-* statement
+* Edit the _incCommon.php_ script, and look for the *logInMember* function.  
+* Add the following lines of code just after the *function logInMember(){* statement
 ```php
 $curr_dir = dirname(__FILE__);
 require_once "$curr_dir/hooks/GoogleAuthenticatorClass.php";
