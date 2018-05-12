@@ -1,5 +1,5 @@
 # Google Authenticator in AppGini
-As of v.5.70, password management is quite poor in AppGini, utilizing the very old MD5 protocol.  There may be various reasons why you'd like to enable multi factor authentcation.
+There may be various reasons why you'd like to enable multi factor authentcation. It protects your application with a little bit more protection when users may have poor password management skills.
 
 ## Installation
 * Download the [GoogleAuthenticatorClass.php](https://github.com/massyn/php-framework/blob/master/GoogleAuthenticatorClass.php) file and save it to your _hooks_ folder.
