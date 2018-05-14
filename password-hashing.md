@@ -28,7 +28,8 @@ with this
 
 				// read the password from the database
 				$passwordDB = sqlValue("select passMD5 from membership_users where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
-				if($passwordDB == $password && preg_match('/^[a-f0-9]{32}$/i', $passwordDB)) {
+				if($passwordDB == $password && preg_match('/^[a-f0-9]{32}$/i',$passwordDB)) {
+
 					// this means we managed to authenticate with the MD5 password
 					// we need to convert the password to a more secure hashing algorithm
 					$options = [
