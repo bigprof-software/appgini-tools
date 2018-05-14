@@ -35,7 +35,7 @@ with this
 					$options = [
 			    			'cost' => 12,
 		    			];
-					$passwordHash = password_hash($_POST['username'], PASSWORD_BCRYPT, $options);
+					$passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
 
 					db_query("update membership_users set passMD5='$passwordHash' where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
 				}
