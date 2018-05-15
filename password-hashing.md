@@ -88,7 +88,7 @@ $adminPassword = md5($adminPassword);
 ```
 with
 ```php
-$adminPassword = password_hash(adminPassword, PASSWORD_BCRYPT, ['cost' => 12]);
+$adminPassword = password_hash($adminPassword, PASSWORD_BCRYPT, ['cost' => 12]);
 ````
 
 Around line 108, replace the following code
