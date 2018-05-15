@@ -1,5 +1,5 @@
 # Securing passwords in AppGini 5.70
-AppGini upto version 5.70 is utilizing MD5 to hash user passwords in the _membership_users_ table.  There are [many](https://en.wikipedia.org/wiki/MD5#Overview_of_security_issues) reasons why MD5 should not be used, an issue I have reported to the developers of AppGini back in January 2018 (we're in May, and still no solution in sight).  This is a serious issue, and once that demands a solution.  So here is my take on it.  While it is manual, the following patch to your generated AppGini code will make your passwords a lot more secure.
+AppGini upto version 5.70 is utilizing MD5 to hash user passwords in the _membership_users_ table.  There are [many](https://en.wikipedia.org/wiki/MD5#Overview_of_security_issues) reasons why MD5 should not be used, an issue I have reported to the developers of AppGini back in January 2018 (we're in May, and still no solution in sight).  This is a serious issue, and once that demands a solution.  So here is my take on it.  While it is manual, the following patch applied to your generated AppGini code will make your passwords a lot more secure.
 
 *Do note that this will break the _Remember Me_ function, which is also badly broken, using yet another MD5 function that contains the password.*
 
