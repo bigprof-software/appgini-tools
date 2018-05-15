@@ -61,7 +61,17 @@ with this
 
 				if(password_verify($_POST['password'],$passPHP)) {
 ```
-
+A few lines down, replace this code (where Application is your own application's title)
+```php
+@setcookie('Application_rememberMe', md5($username.$password), time()+86400*30);
+```
+with this code
+```php
+$SessionID = bin2hex(random_bytes(60));
+db_query("INSERT INTO membership_sessions (session,memberID,memberGroupID,datetime) values('$SessionID','" . makeSafe($username) . "'," . makeSafe($_SESSION['memberGroupID']) . ",CURRENT_TIMESTAMP)");
+@setcookie('Application_rememberMe', $SessionID, time()+86400*30,'','',isset($_SERVER["HTTPS"]), true);
+```
+*REMEMBER* - you need to replace the title _Application_ with your own application's title.
 ### admin/pageEditMember.php
 Around line 64, replace the following code
 ```php
