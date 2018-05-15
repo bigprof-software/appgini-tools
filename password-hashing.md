@@ -1,7 +1,7 @@
 # Securing passwords in AppGini 5.70
 AppGini upto version 5.70 is utilizing MD5 to hash user passwords in the _membership_users_ table.  There are [many](https://en.wikipedia.org/wiki/MD5#Overview_of_security_issues) reasons why MD5 should not be used, an issue I have reported to the developers of AppGini back in January 2018 (we're in May, and still no solution in sight).  This is a serious issue, and once that demands a solution.  So here is my take on it.  While it is manual, the following patch applied to your generated AppGini code will make your passwords a lot more secure.
 
-*Do note that this will break the _Remember Me_ function, which is also badly broken, using yet another MD5 function that contains the password.*
+This patch will also improve the Remember Me function, removing the MD5 functions used to validate the cookies.
 
 ### Schema update
 Run the following SQL query against the database to upgrade the schema.
@@ -67,11 +67,25 @@ A few lines down, replace this code (where Application is your own application's
 ```
 with this code
 ```php
-$SessionID = bin2hex(random_bytes(60));
+$SessionID = sha1(bin2hex(random_bytes(60)));
 db_query("INSERT INTO membership_sessions (session,memberID,memberGroupID,datetime) values('$SessionID','" . makeSafe($username) . "'," . makeSafe($_SESSION['memberGroupID']) . ",CURRENT_TIMESTAMP)");
 @setcookie('Application_rememberMe', $SessionID, time()+86400*30,'','',isset($_SERVER["HTTPS"]), true);
 ```
 *REMEMBER* - you need to replace the title _Application_ with your own application's title.
+
+At the bottom of the same function, look for the following piece of code
+```php
+if($username=sqlValue("select memberID from membership_users where convert(md5(concat(memberID, passMD5)), char)='$chk' and isBanned=0")){
+```
+and replace it with the following code
+```php
+// perform a maintenance clean up of any old entries in the session table (this also invalidates old sessions).  The current default is 14 days.  If you want sessions to remain more than 2 weeks, increase the number in the query
+db_query("DELETE from `membership_sessions` where TIME_TO_SEC(timediff(CURRENT_TIMESTAMP,datetime)) > 1209600");
+if($username=sqlValue("select memberID from membership_sessions where session='$chk' and isBanned=0")){
+	// update the datetime, so that the session remain valid
+	db_query("update membership_sessions set datetime = CURRENT_TIMESTAMP where session='$chk' and isBanned=0");
+```
+
 ### admin/pageEditMember.php
 Around line 64, replace the following code
 ```php
