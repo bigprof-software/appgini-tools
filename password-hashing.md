@@ -56,5 +56,14 @@ with this
 				if(password_verify($_POST['password'],$passPHP)) {
 ```
 
+### admin/pageEditMember.php
+Around line 64, replace the following code
+```php
+sql("INSERT INTO `membership_users` set memberID='{$memberID}', passMD5='" . md5($password) . "', email='{$email}', signupDate='" . @date('Y-m-d') . "', groupID='{$groupID}', isBanned='{$isBanned}', isApproved='{$isApproved}', {$customs_sql} comments='{$comments}'", $eo);
+```
+with this code
+```php
+	sql("INSERT INTO `membership_users` set memberID='{$memberID}', passPHP='" . password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]) . "', email='{$email}', signupDate='" . @date('Y-m-d') . "', groupID='{$groupID}', isBanned='{$isBanned}', isApproved='{$isApproved}', {$customs_sql} comments='{$comments}'", $eo);	
+```
 ## TODO
-Change password code
+Change password code for the user
