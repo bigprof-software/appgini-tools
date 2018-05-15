@@ -48,7 +48,7 @@ with this
 			    				'cost' => 12,
 		    				];
 						$passPHP = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
-
+						
 						db_query("update membership_users set passMD5='', passPHP='$passPHP' where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
 					}
 				}
