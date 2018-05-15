@@ -7,9 +7,13 @@ AppGini upto version 5.70 is utilizing MD5 to hash user passwords in the _member
 Run the following SQL query against the database to upgrade the schema.
 ```sql
 ALTER TABLE membership_users ADD passPHP varchar(60);
-
+CREATE TABLE membership_sessions (
+	session 	varchar(60) PRIMARY KEY,
+	datetime	datetime,
+	memberID	varchar(20),
+	memberGroupID	int(10)
+);
 ```
-
 ### incCommon.php
 If you have an existing system, then getting your users reset their passwords will be a very time consuming activity.  This fix will allow the existing MD5 passwords to remain, and will replace them with more secure passwords as soon as the user logs on the next time.
 
