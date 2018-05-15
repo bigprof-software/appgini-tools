@@ -3,6 +3,13 @@ AppGini upto version 5.70 is utilizing MD5 to hash user passwords in the _member
 
 *Do note that this will break the _Remember Me_ function, which is also badly broken, using yet another MD5 function that contains the password.*
 
+### Schema update
+Run the following SQL query against the database to upgrade the schema.
+```sql
+ALTER TABLE membership_users ADD passPHP varchar(60);
+
+```
+
 ### incCommon.php
 If you have an existing system, then getting your users reset their passwords will be a very time consuming activity.  This fix will allow the existing MD5 passwords to remain, and will replace them with more secure passwords as soon as the user logs on the next time.
 
@@ -27,11 +34,6 @@ with this
 			if($_POST['username'] != '' && $_POST['password'] != ''){
 				$username = makeSafe(strtolower($_POST['username']));
 				$password = md5($_POST['password']);
-
-				// create the additional field if it doesn't exist yet
-				if(!db_query("select passPHP from membership_users limit 1")) {
-					db_query("alter table membership_users add passPHP varchar(60)");
-				}
 
 				// read the password from the database
 				$passPHP = sqlValue("select passPHP from membership_users where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
