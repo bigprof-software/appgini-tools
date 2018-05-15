@@ -63,7 +63,22 @@ sql("INSERT INTO `membership_users` set memberID='{$memberID}', passMD5='" . md5
 ```
 with this code
 ```php
-	sql("INSERT INTO `membership_users` set memberID='{$memberID}', passPHP='" . password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]) . "', email='{$email}', signupDate='" . @date('Y-m-d') . "', groupID='{$groupID}', isBanned='{$isBanned}', isApproved='{$isApproved}', {$customs_sql} comments='{$comments}'", $eo);	
+sql("INSERT INTO `membership_users` set memberID='{$memberID}', passPHP='" . password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]) . "', email='{$email}', signupDate='" . @date('Y-m-d') . "', groupID='{$groupID}', isBanned='{$isBanned}', isApproved='{$isApproved}', {$customs_sql} comments='{$comments}'", $eo);	
 ```
-## TODO
-Change password code for the user
+Around line 101, replace
+```php
+$non_superadmin_sql = "passMD5=" . ($password != '' ? "'" . md5($password) . "'" : "passMD5") . ", email='{$email}', groupID='{$groupID}', isBanned='{$isBanned}', isApproved='{$isApproved}', ";
+```
+with
+```php
+$non_superadmin_sql = "passPHP=" . ($password != '' ? "'" . password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]) . "'" : "passPHP") . ", email='{$email}', groupID='{$groupID}', isBanned='{$isBanned}', isApproved='{$isApproved}', ";
+```
+Around line 109, replace
+```php
+$non_superadmin_sql = "passMD5='{$admin_pass_md5}', email='{$admin_email}', isBanned='0', isApproved='1', ";
+```
+with
+```php
+$non_superadmin_sql = "passPHP='" . password_hash($adminConfig['adminPassword'], PASSWORD_BCRYPT, ['cost' => 12]) . "', email='{$admin_email}', isBanned='0', isApproved='1', ";
+```
+
