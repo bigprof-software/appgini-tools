@@ -81,4 +81,22 @@ with
 ```php
 $non_superadmin_sql = "passPHP='" . password_hash($adminConfig['adminPassword'], PASSWORD_BCRYPT, ['cost' => 12]) . "', email='{$admin_email}', isBanned='0', isApproved='1', ";
 ```
+### admin/pageSettings.php
+Around line 44, replace the following code
+```php
+$adminPassword = md5($adminPassword);
+```
+with
+```php
+$adminPassword = password_hash(adminPassword, PASSWORD_BCRYPT, ['cost' => 12]);
+````
+
+Around line 108, replace the following code
+```php
+sql( "update membership_users set memberID='$adminUsername', passMD5='$adminPassword', email='{$post['senderEmail']}', comments=concat_ws('', comments, '\\n', '".str_replace ( "<DATE>" , @date('Y-m-d') , $Translation['record updated automatically'] ) ."') where lcase(memberID)='" . makeSafe(strtolower($adminConfig['adminUsername'])) . "'" , $eo);
+```
+with the following code
+```php
+sql( "update membership_users set memberID='$adminUsername', passPHP='$adminPassword', email='{$post['senderEmail']}', comments=concat_ws('', comments, '\\n', '".str_replace ( "<DATE>" , @date('Y-m-d') , $Translation['record updated automatically'] ) ."') where lcase(memberID)='" . makeSafe(strtolower($adminConfig['adminUsername'])) . "'" , $eo);
+```
 
