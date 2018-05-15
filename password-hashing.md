@@ -6,6 +6,8 @@ AppGini upto version 5.70 is utilizing MD5 to hash user passwords in the _member
 ### incCommon.php
 If you have an existing system, then getting your users reset their passwords will be a very time consuming activity.  This fix will allow the existing MD5 passwords to remain, and will replace them with more secure passwords as soon as the user logs on the next time.
 
+The function will add a new field (_passPHP_), authenticate against MD5, then replace the password with the new hash, and delete the old MD5 hash.
+
 Replace the following code in *incCommon.php*...
 ```php
 	function logInMember(){
@@ -26,21 +28,32 @@ with this
 				$username = makeSafe(strtolower($_POST['username']));
 				$password = md5($_POST['password']);
 
-				// read the password from the database
-				$passwordDB = sqlValue("select passMD5 from membership_users where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
-				if($passwordDB == $password && preg_match('/^[a-f0-9]{32}$/i',$passwordDB)) {
-
-					// this means we managed to authenticate with the MD5 password
-					// we need to convert the password to a more secure hashing algorithm
-					$options = [
-			    			'cost' => 12,
-		    			];
-					$passwordHash = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
-
-					db_query("update membership_users set passMD5='$passwordHash' where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
+				// create the additional field if it doesn't exist yet
+				if(!db_query("select passPHP from membership_users limit 1")) {
+					db_query("alter table membership_users add passPHP varchar(60)");
 				}
-				
-				if(password_verify($_POST['password'],$passwordDB)) {
+
+				// read the password from the database
+				$passPHP = sqlValue("select passPHP from membership_users where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
+
+				// if the password is blank, it could indicate that the password was not converted to PHP yet
+				if($passPHP == '') {
+					// retrieve the old MD5 password
+					$passMD5 = sqlValue("select passMD5 from membership_users where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
+
+					// == authenticate against MD5
+					if($passMD5 == $password) {
+						// we need to convert the password to a more secure hashing algorithm
+						$options = [
+			    				'cost' => 12,
+		    				];
+						$passPHP = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
+
+						db_query("update membership_users set passMD5='', passPHP='$passPHP' where lcase(memberID)='$username' and isApproved=1 and isBanned=0");
+					}
+				}
+
+				if(password_verify($_POST['password'],$passPHP)) {
 ```
 
 ## TODO
