@@ -16,6 +16,6 @@ Update the _$GROUP_ variable with the name of the group you've configured.
 ### login.php
 Edit _login.php_ and around line 48, add the following HTML code
 ```html
-<a href="hooks/facebook.php"><img src="hooks/facebook-login-blue.png"></a>
+<div class="col-sm-offset-2 col-sm-6"><a href="hooks/facebook.php"><img src="hooks/facebook-login-blue.png"></a></div>
 ```
 If everything is setup correctly, you should see a Login to Facebook button on your main page, and when you click it, you should be authenticated to your application.
