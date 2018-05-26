@@ -1,4 +1,4 @@
-# Facebook (Oath2) integration
+# Facebook Authentication with OATH2
 
 ## About the plugin
 I like AppGini.  It is a great tool for rapidly developing websites.  Out of the box, AppGini does not support authentication against a centralized directory services.  When developing a Cloud-based solution for your customers, they may want to authenticate against their own [ADFS](https://en.wikipedia.org/wiki/Active_Directory_Federation_Services) server to provide [single signon](https://en.wikipedia.org/wiki/Single_sign-on) capability.  While the plugin is specific to Facebook, it is written without any special plugins using only native [OATH2](https://oauth.net/2/) API calls, and could easily be adjusted to any OATH2 provider.
