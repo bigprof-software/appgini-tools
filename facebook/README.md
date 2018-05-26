@@ -3,6 +3,12 @@
 ## About the plugin
 I like AppGini.  It is a great tool for rapidly developing websites.  Out of the box, AppGini does not support authentication against a centralized directory services.  When developing a Cloud-based solution for your customers, they may want to authenticate against their own [ADFS](https://en.wikipedia.org/wiki/Active_Directory_Federation_Services) server to provide [single signon](https://en.wikipedia.org/wiki/Single_sign-on) capability.  While the plugin is specific to Facebook, it is written without any special plugins using only native [OATH2](https://oauth.net/2/) API calls, and could easily be adjusted to any OATH2 provider.
 The plugin is not a replacement for the existing authentication in AppGini.  It works in addition to it, creating new users that come in via Facebook, and allocating a specific group to them.
+## Concerns raised about the plugin
+### If I loose control over my Facebook account, all my sites will be isolated
+The risk of losing control over a single Facebook account is far lower than any single site getting comprimised, since AppGini does not offer any kind of brute force protection, and the passwords are also hashed to MD5 in the backend (a hashing algorithm that should not be used for passwords)
+
+You should ensure that your Facebook account has a secure and unique password, and that multi-factor authentication is enabled.  If for whatever reason you do loose the Facebook account, you can always log onto the AppGini server, and adjust the _membership_users_ table directly and update the _passMD5_ field.
+
 ## Ideas for future improvements
 * User Creation - while users can automatically be created, do not automatically allocate them to a group.  admin will need to approve the facebook accounts first.
 
