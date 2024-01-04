@@ -1,7 +1,8 @@
 repo_name: bigprof-software/appgini-tools
-report_id: d2671e24e5857f69f6c16574c79a46bf
+report_id: 202e72502c88b53a8f34565abcaa32cb
+version: 0.1
 repo_type: Public
-timestamp: '2023-12-14T09:23:59+00:00'
+timestamp: '2024-01-04T14:52:59+00:00'
 requested_by: bigprof
 provider: github
 branch: master
@@ -16,6 +17,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/991/hwUcGZ41_400x400.jpg
+  detection_source_url: https://github.com/bigprof-software/appgini-tools
   detection_source: Repo Metadata
 - name: Git
   description: Fast, scalable, distributed revision control system
@@ -25,4 +27,5 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/bigprof-software/appgini-tools
   detection_source: Repo Metadata
