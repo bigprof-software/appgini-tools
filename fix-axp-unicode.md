@@ -12,3 +12,5 @@ The `fix-axp-unicode.php` file can fix this issue. Upload this file to your serv
 (preferably into some obscure or protected directory) and visit it in your browser.
 It would show a form to upload the AXP file. It should then fix the encoding and
 the fixed AXP file would be downloaded to your default download folder.
+
+#### [Here is the file](fix-axp-unicode.php) (click 'Download raw file').
